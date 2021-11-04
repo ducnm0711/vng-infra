@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee
+  namespace: vng-mail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coffee
+  template:
+    metadata:
+      labels:
+        app: coffee
+    spec:
+      containers:
+      - name: coffee
+        image: nginxdemos/nginx-hello:plain-text
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffee-svc
+  namespace: vng-mail
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: coffee
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: coffee-ingress
+  namespace: vng-mail
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+        if ($host = 'linagora.com.vn' ) {
+          rewrite ^ https://linagora.vn permanent;
+        }
+spec:
+  tls:
+  - hosts:
+    - linagora.com.vn
+    secretName: linagora-prod-certificate
+  rules:
+  - host: linagora.com.vn
+    http:
+      paths:
+        - backend:
+            serviceName: coffee-svc
+            servicePort: 80
+          path: /
+          
