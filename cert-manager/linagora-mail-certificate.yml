@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: linagora-mail-certificate
+  namespace: vng-mail
+spec:
+  dnsNames:
+    - mail.linagora.com.vn
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: linagora-mail-certificate

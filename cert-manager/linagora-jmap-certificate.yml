@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: linagora-jmap-certificate
+  namespace: vng-mail
+spec:
+  dnsNames:
+    - jmap.linagora.com.vn
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: linagora-jmap-certificate
