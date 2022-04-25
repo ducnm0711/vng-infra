@@ -1,0 +1,53 @@
+fullnameOverride: metrics
+
+#Disable Grafana
+grafana:
+  enabled: false
+
+# Disable Alert Mananger
+alertmanager:
+  enabled: false
+
+# Disable PrometheusRules
+defaultRules:
+  create: false
+
+# Disable Prometheus Service Monitor for below components
+kubeApiServer:
+  enabled: false
+kubelet:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+coreDns:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 200Mi
+    limits:
+      cpu: 400m
+      memory: 400Mi
+
+prometheus:
+  prometheusSpec:
+    scrapeInterval: "1m"
+    scrapeTimeout: "60s"
+    evaluationInterval: "1m"
+    retention: 3d
+    resources:
+      requests:
+        cpu: 100m
+        memory: 400Mi
+      limits:
+        cpu: 300m
+        memory: 800Mi 
+    replicas: 1

@@ -1,0 +1,14 @@
+controller:
+  admissionWebhooks:
+    enabled: false
+  hostNetwork: true
+  service:
+    type: ClusterIP
+    # externalTrafficPolicy: Local
+    # externalIPs: 
+    #   - 61.28.237.52
+  config:
+    # use-proxy-protocol: "true" #THIS WILL CAUSE ERROR PLEASE DONT
+    use-forwarded-headers: "false" 
+    proxy-real-ip-cidr: "127.0.0.1/32"
+  kind: DaemonSet
